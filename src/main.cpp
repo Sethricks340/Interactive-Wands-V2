@@ -17,7 +17,7 @@ const char* firmwareURL =
 const char* versionURL =
     "https://raw.githubusercontent.com/Sethricks340/Interactive-Wands-V2/main/firmware/version.txt";
 
-const int FIRMWARE_VERSION = 1;
+const int FIRMWARE_VERSION = 2;
 
 void UpdateFirmware() {
     WiFiClientSecure client;
