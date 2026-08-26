@@ -65,7 +65,7 @@ void loop() {
     }
     
     // change color test
-    digitalWrite(RED_PIN, LOW);
-    digitalWrite(GREEN_PIN, HIGH);
+    digitalWrite(RED_PIN, HIGH);
+    digitalWrite(GREEN_PIN, LOW);
     digitalWrite(BLUE_PIN, LOW);
 }
