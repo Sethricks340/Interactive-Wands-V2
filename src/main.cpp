@@ -19,29 +19,17 @@ const char* versionURL =
 
 const int FIRMWARE_VERSION = 1;
 
-void UpdateFirmware(){
-    HTTPClient firmwarehttp;
-    firmwarehttp.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
-    firmwarehttp.begin(firmwareURL);
+void UpdateFirmware() {
+    WiFiClientSecure client;
+    client.setInsecure();
 
-    int httpCode = firmwarehttp.GET();
+    t_httpUpdate_return result =
+        httpUpdate.update(client, firmwareURL);
 
-    if (httpCode == HTTP_CODE_OK) {
-
-        WiFiClientSecure client;
-        client.setInsecure(); // TODO: change this to secure
-
-        t_httpUpdate_return result =
-            httpUpdate.update(client, firmwareURL);
-    } 
-
-    firmwarehttp.end();
-
-    // Firmware will reset, and nothing else in this file will be run
+    // If update fails, execution continues here
 }
 
 void CheckUpdates() {
-     // Check the version number for updates
     HTTPClient versionhttp;
     versionhttp.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     versionhttp.begin(versionURL);
@@ -51,7 +39,8 @@ void CheckUpdates() {
     if (httpCode == HTTP_CODE_OK) {
         String serverVersion = versionhttp.getString();
         serverVersion.trim();
-        if (serverVersion.toInt() > FIRMWARE_VERSION){
+
+        if (serverVersion.toInt() > FIRMWARE_VERSION) {
             UpdateFirmware();
         }
     }
