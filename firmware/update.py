@@ -11,8 +11,9 @@ version_file = folder / "version.txt"
 shutil.copy2(source, destination)
 
 # Increment version
-version = int(version_file.read_text().strip()) + 1
-version_file.write_text(str(version))
+# version = int(version_file.read_text().strip()) + 1
+# version_file.write_text(str(version))
 
 print(f"Firmware copied.")
-print(f"Version updated to {version}.")
+# print(f"Version updated to {version}.")
+print(f"Version updated to not touched temporarily.")

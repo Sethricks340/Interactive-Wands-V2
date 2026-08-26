@@ -1,17 +1,19 @@
 #include <Arduino.h>
 #include <WiFi.h>
-// #include <ArduinoOTA.h>
 #include <WiFiClientSecure.h>
 #include <HTTPUpdate.h>
 
 #define LED_ON  LOW
 #define LED_OFF HIGH
+#define BUTTON_PIN D0
+#define RED_PIN    D1
+#define GREEN_PIN  D2
+#define BLUE_PIN   D3
 
 const char* ssid = "Threat Level Midnight";
 const char* password = "cowabunga2!!";
 
 const char* firmwareURL =
-    // "https://github.com/Sethricks340/Interactive-Wands-V2/raw/refs/heads/main/firmware/firmware.bin";
     "https://raw.githubusercontent.com/Sethricks340/Interactive-Wands-V2/main/firmware/firmware.bin";
 
 const char* versionURL =
@@ -25,27 +27,6 @@ void UpdateFirmware() {
 
     t_httpUpdate_return result =
         httpUpdate.update(client, firmwareURL);
-
-    // If update fails, execution continues here
-}
-
-void CheckUpdates() {
-    HTTPClient versionhttp;
-    versionhttp.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
-    versionhttp.begin(versionURL);
-
-    int httpCode = versionhttp.GET();
-
-    if (httpCode == HTTP_CODE_OK) {
-        String serverVersion = versionhttp.getString();
-        serverVersion.trim();
-
-        if (serverVersion.toInt() > FIRMWARE_VERSION) {
-            UpdateFirmware();
-        }
-    }
-
-    versionhttp.end();
 }
 
 void setup() {
@@ -53,7 +34,7 @@ void setup() {
     delay(2000);
 
     pinMode(LED_BUILTIN, OUTPUT);
-    // Test LED off initially
+    // LED off initially
     digitalWrite(LED_BUILTIN, LED_OFF);
 
     WiFi.begin(ssid, password); // TODO: change to dynamic from iphone
@@ -62,14 +43,21 @@ void setup() {
         delay(500); // TODO: add timeout
     }
 
-   CheckUpdates();
+    pinMode(RED_PIN, OUTPUT);
+    pinMode(GREEN_PIN, OUTPUT);
+    pinMode(BLUE_PIN, OUTPUT);
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
 
 }
 
 void loop() {
     // run this to test if the update worked
-    digitalWrite(LED_BUILTIN, LED_ON);
-    delay(1000);
-    digitalWrite(LED_BUILTIN, LED_OFF);
-    delay(1000);
+    if (digitalRead(BUTTON_PIN) == LOW) {
+        UpdateFirmware();
+    }
+    
+    // Green
+    digitalWrite(RED_PIN, LOW);
+    digitalWrite(GREEN_PIN, LOW);
+    digitalWrite(BLUE_PIN, HIGH);
 }
