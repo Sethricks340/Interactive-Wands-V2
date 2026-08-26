@@ -53,6 +53,9 @@ void setup() {
 void loop() {
     // run this to test if the update worked
     if (digitalRead(BUTTON_PIN) == LOW) {
+        digitalWrite(RED_PIN, LOW);
+        digitalWrite(GREEN_PIN, LOW);
+        digitalWrite(BLUE_PIN, LOW);
         UpdateFirmware();
     }
     
