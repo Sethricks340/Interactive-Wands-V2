@@ -70,7 +70,12 @@
 //     digitalWrite(BLUE_PIN, HIGH);
 // }
 
-
+// MPU-6050       XIAO ESP32-S3
+// ----------------------------
+// VCC       →    3.3V
+// GND       →    GND
+// SDA       →    D4
+// SCL       →    D5
 
 #include <Arduino.h>
 #include <Wire.h>
